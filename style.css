@@ -172,3 +172,7 @@ button {
 .hidden {
     display: none;
 }
+
+p {
+    margin-bottom: 16px;
+}
