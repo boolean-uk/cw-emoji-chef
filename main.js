@@ -87,6 +87,20 @@ function randomLoadingMessage() {
     }, 2000);
 }
 
+// abstracted function to make a HTTP request
+async function makeRequest(endpoint, data) {
+    const response = await fetch(_CONFIG_.API_BASE_URL + endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${_CONFIG_.API_KEY}`,
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+
+    return await response.json()
+}
+
 async function createRecipe() {
     let randomMessageInterval = randomLoadingMessage();
     loading.classList.remove('hidden');
@@ -121,20 +135,6 @@ async function createRecipe() {
 
     // Stop the interval that was responsible for displaying random loading messages every 2 seconds
     clearInterval(randomMessageInterval);
-}
-
-// abstracted function to make a HTTP request
-async function makeRequest(endpoint, data) {
-    const response = await fetch(_CONFIG_.API_BASE_URL + endpoint, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${_CONFIG_.API_KEY}`,
-        },
-        method: 'POST',
-        body: JSON.stringify(data)
-    })
-
-    return await response.json()
 }
 
 init();
