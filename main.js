@@ -101,6 +101,15 @@ async function makeRequest(endpoint, data) {
     return await response.json()
 }
 
+// Function to reset the bowl back to empty
+function clearBowl() {
+    bowl = [];
+    // Set each bowl slot back to a ?
+    bowlSlots.forEach(function (el) {
+        el.innerText = '?';
+    });
+}
+
 async function createRecipe() {
     let randomMessageInterval = randomLoadingMessage();
     loading.classList.remove('hidden');
@@ -135,6 +144,21 @@ async function createRecipe() {
 
     // Stop the interval that was responsible for displaying random loading messages every 2 seconds
     clearInterval(randomMessageInterval);
+
+    // After we receive a recipe, prompt the AI to generate an image for it
+    const imageJSON = await makeRequest('/images/generations', {
+        prompt: `Create an image for this recipe: ${content.title}`,
+        n: 1,
+        size: '512x512',
+        response_format: 'url'
+    });
+
+    const imageUrl = imageJSON.data[0].url;
+    // Add the AI generate image to the modal
+    modalImage.innerHTML = `<img src="${imageUrl}" alt="recipe photo" />`
+
+    // Reset the bowl back to 3 question marks
+    clearBowl();
 }
 
 init();
