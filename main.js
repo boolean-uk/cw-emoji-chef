@@ -28,6 +28,8 @@ function init() {
             addIngredient(el.innerText);
         });
     });
+
+    cookBtn.addEventListener('click', createRecipe);
 }
 
 function addIngredient(ingredient) {
@@ -56,6 +58,39 @@ function addIngredient(ingredient) {
     if(bowl.length === bowlMaxSlots) {
         cookBtn.classList.remove('hidden');
     }
+}
+
+function randomLoadingMessage() {
+    const messages = [
+        'Prepping the ingredients...',
+        'Stove is heating up...',
+        'Stirring ingredients in a bowl...',
+        'Taking photos for Instagram...',
+        'Choosing a ladle...',
+        'Putting on a fancy apron...',
+        'Washing my hands thoroughly...',
+        'Peeling potatoes...',
+        'Cleaning the countertop...'
+    ];
+
+    // Get the loading message HTML element
+    const loadingMessage = document.querySelector('.loading-message');
+    // Set its text to the first item in the messages array: 'Prepping the ingredients...'
+    loadingMessage.innerText = messages[0];
+
+    // Create an interval so every 2 seconds the loading message changes
+    return setInterval(function () {
+        // Generate a random number between 0 and the length of the messages array (9)
+        const randIdx = Math.floor(Math.random() * messages.length);
+        // Change the loading message to the string contained at that index in the messages array
+        loadingMessage.innerText = messages[randIdx];
+    }, 2000);
+}
+
+async function createRecipe() {
+    let randomMessageInterval;
+    randomMessageInterval = randomLoadingMessage();
+    loading.classList.remove('hidden');
 }
 
 init();
