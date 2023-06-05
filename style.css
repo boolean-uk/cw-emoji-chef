@@ -96,3 +96,79 @@ button {
     border: none;
     border-radius: 20px;
 }
+
+.modal {
+    position: fixed; 
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    padding: 24px;
+    background-color: rgb(255 170 251 / 85%);
+    overflow-y: auto;
+    overscroll-behavior: contain;   
+}
+
+.modal-box {
+    position: relative;
+    width: 100%;
+    max-width: 512px;
+    margin: 24px auto;
+    background-color: #ffffff;  
+    border: 2px solid #1212b2;
+    animation: pop-effect 0.3s ease-out;
+}
+
+.modal-image {
+    background-image: url("./images/loader.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 250px;
+}
+
+.modal-image-loader {
+    margin: 38px auto;
+    display: block;
+}
+
+.modal-content {
+    padding: 16px;
+}
+
+.modal-close {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    height: 36px;
+    width: 36px;
+    background-color: #ffaafb;
+    border: 2px solid #1212b2;
+    border-radius: 50%;
+}
+
+.loading {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background-color: rgb(255 170 251 / 85%);
+}
+
+.loading-message {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.hidden {
+    display: none;
+}
