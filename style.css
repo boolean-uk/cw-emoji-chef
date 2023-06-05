@@ -57,6 +57,7 @@ main {
     border: 2px solid #1212b2;
     border-radius: 20px;
     cursor: pointer;
+    animation: pop-effect 2s ease-out;
 }
 
 .bowl {
@@ -175,4 +176,16 @@ button {
 
 p {
     margin-bottom: 16px;
+}
+
+@keyframes pop-effect {
+    0% {
+        transform: scale(0.75);
+    }
+    40% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }    
 }
