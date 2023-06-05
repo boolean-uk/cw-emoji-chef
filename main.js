@@ -88,9 +88,53 @@ function randomLoadingMessage() {
 }
 
 async function createRecipe() {
-    let randomMessageInterval;
-    randomMessageInterval = randomLoadingMessage();
+    let randomMessageInterval = randomLoadingMessage();
     loading.classList.remove('hidden');
+
+    // Send a prompt to the artificial intelligence API
+    const result = await makeRequest('/chat/completions', {
+        model: _CONFIG_.GPT_MODEL,
+        messages: [
+            {
+                role: 'user',
+                content: `Create a recipe with these ingredients: ${bowl.join(', ')}. The recipe should be easy and with a creative and fun title. Your replies should be in JSON format like htis example :### {"title": "Recipe title", "ingredients": "1 egg, 1 tomato", "instructions": "mix the ingredients and put in the oven"}###`
+            }
+        ],
+        temperature: 0.7
+    });
+
+    // When the API responds, transform it into something usable
+    const content = JSON.parse(result.choices[0].message.content)
+
+    // Change the content inside the modal to contain what the AI gave us
+    modalContent.innerHTML = `
+        <h2>${content.title}</h2>
+        <p>${content.ingredients}</p>
+        <p>${content.instructions}</p>
+    `;
+
+    // Remove the hidden class from the modal so it displays on screen
+    modal.classList.remove('hidden');
+
+    // Add the hidden class to the loading element so it disappears
+    loading.classList.add('hidden');
+
+    // Stop the interval that was responsible for displaying random loading messages every 2 seconds
+    clearInterval(randomMessageInterval);
+}
+
+// abstracted function to make a HTTP request
+async function makeRequest(endpoint, data) {
+    const response = await fetch(_CONFIG_.API_BASE_URL + endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${_CONFIG_.API_KEY}`,
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+
+    return await response.json()
 }
 
 init();
